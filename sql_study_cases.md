@@ -177,16 +177,48 @@ ORDER BY Released_Year
 ### 1️⃣2️⃣ Identify movies where **Meta Score is missing**, and check their average IMDB rating.
 ```sql
 -- Write your SQL answer here
+SELECT 
+
+Series_Title,
+AVG(IMDB_Rating)
+
+FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+WHERE Meta_score is NULL OR Meta_score = 0  
+GROUP BY Series_Title
 ```
 
 ### 1️⃣3️⃣ Find the **highest-grossing movie per director**.
 ```sql
 -- Write your SQL answer here
+SELECT 
+    Director, 
+    Series_Title, 
+    Gross
+FROM (
+    SELECT 
+        Director, 
+        Series_Title, 
+        Gross,
+        ROW_NUMBER() OVER (PARTITION BY Director ORDER BY Gross DESC) AS Rank
+    FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+    WHERE Gross IS NOT NULL
+) RankedMovies
+WHERE Rank = 1 AND GROSS != 0
+ORDER BY GROSS DESC; 
 ```
 
 ### 1️⃣4️⃣ Create a new column that categorizes movies as **"Hit" or "Flop"** based on Gross revenue (above/below average).
 ```sql
 -- Write your SQL answer here
+SELECT 
+    movie_name, 
+    gross_revenue,
+    CASE 
+        WHEN gross_revenue > (SELECT AVG(gross_revenue) FROM movies) THEN 'Hit'
+        ELSE 'Flop'
+    END AS movie_category
+FROM 
+    movies;
 ```
 
 ### 1️⃣5️⃣ Find the **actor who has appeared in the most movies with an IMDB rating above 8.0**.
