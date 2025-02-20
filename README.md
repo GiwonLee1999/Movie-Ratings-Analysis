@@ -26,3 +26,12 @@ This project focuses on **ETL (Extract, Transform, Load) operations** on the IMD
 1. Clone the repository:
    ```sh
    git clone https://github.com/GiwonLee1999/Movie-Ratings-Analysis.git
+
+## Plots with Seaborn
+
+- ![Overview Heatmap](https://github.com/GiwonLee1999/Movie-Ratings-Analysis/blob/main/ETL/headmap.jpg)
+
+- ![Votes VS Rating](https://github.com/GiwonLee1999/Movie-Ratings-Analysis/blob/main/ETL/votes_vs_rating.jpg)
+
+- ![Votes VS Score](https://github.com/GiwonLee1999/Movie-Ratings-Analysis/blob/main/ETL/%23Votes%20vs%20Meta%20Score.jpg)
+
