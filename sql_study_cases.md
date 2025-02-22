@@ -6,7 +6,7 @@
 ```sql
 -- Write your SQL answer here
 SELECT Series_Title 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 ORDER BY Meta_score
 LIMIT 10;
 ```
@@ -17,7 +17,7 @@ LIMIT 10;
 SELECT 
     (FLOOR(Released_Year / 10) * 10) AS Decade,
     COUNT(*) AS Movie_Count
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 GROUP BY Decade
 order by Decade
 ```
@@ -27,7 +27,7 @@ order by Decade
 -- Write your SQL answer here
 SELECT 
  Series_Title
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 WHERE IMDB_Rating > 8.5 AND Meta_score > 80
 ```
 
@@ -41,7 +41,7 @@ SELECT
  ROW_NUMBER() over(order by count(certificate) desc) as ranking_certificate
 
 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 
 
 group by certificate
@@ -54,15 +54,15 @@ group by certificate
 -- Returns multiple of the movies because there are multiple movies in max year
 SELECT 
     'Oldest' AS Category, Series_Title, Released_Year 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
-WHERE Released_Year = (SELECT MIN(Released_Year) FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` )
+FROM `imdb_movies_1000` 
+WHERE Released_Year = (SELECT MIN(Released_Year) FROM `imdb_movies_1000` )
 
 UNION ALL
 
 SELECT 
     'Newest' AS Category, Series_Title, Released_Year 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
-WHERE Released_Year = (SELECT MAX(Released_Year) FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` );
+FROM `imdb_movies_1000` 
+WHERE Released_Year = (SELECT MAX(Released_Year) FROM `imdb_movies_1000` );
 
 
 ```
@@ -81,7 +81,7 @@ WITH cte AS (
   (FLOOR(Released_Year/10)) * 10 AS Decade,
   ROUND(AVG(IMDB_Rating),2) AS Rating,
   COUNT(*) AS num_movie_released
-  FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+  FROM `imdb_movies_1000` 
   GROUP BY Decade
   ORDER BY Decade 
 )
@@ -103,7 +103,7 @@ SELECT
   ROUND(AVG(Gross),2) AS Average_Gross,
   ROW_NUMBER() OVER(ORDER BY SUM(Gross) DESC) AS gross_ranking
 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 GROUP BY Genre
 
 ```
@@ -119,7 +119,7 @@ SELECT
   ROW_NUMBER() OVER(ORDER BY AVG(IMDB_Rating) DESC) AS rate_ranking
 
 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 GROUP BY Director
 )
 SELECT * from cte
@@ -135,7 +135,7 @@ SELECT
   Star1 AS Actor,
   COUNT(*) AS Movie_Count
 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 Group by Star1
 ORDER BY Movie_Count DESC
 ```
@@ -146,7 +146,7 @@ ORDER BY Movie_Count DESC
 SELECT 
  Genre,
  ROUND(AVG(Meta_score),2) AS Highest_AVG_Meta_Score
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 Group by Genre
 ORDER BY Highest_AVG_Meta_Score DESC
 LIMIT 5
@@ -166,7 +166,7 @@ FROM (
         Released_Year, 
         Gross,
         ROW_NUMBER() OVER (PARTITION BY Released_Year ORDER BY Gross DESC) AS Rank
-    FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+    FROM `imdb_movies_1000` 
     WHERE Gross IS NOT NULL
 ) RankedMovies
 WHERE Rank = 1
@@ -182,7 +182,7 @@ SELECT
 Series_Title,
 AVG(IMDB_Rating)
 
-FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+FROM `imdb_movies_1000` 
 WHERE Meta_score is NULL OR Meta_score = 0  
 GROUP BY Series_Title
 ```
@@ -200,7 +200,7 @@ FROM (
         Series_Title, 
         Gross,
         ROW_NUMBER() OVER (PARTITION BY Director ORDER BY Gross DESC) AS Rank
-    FROM `nimble-ally-449901-n6.movies_analysis_dataset.imdb_movies_1000` 
+    FROM `imdb_movies_1000` 
     WHERE Gross IS NOT NULL
 ) RankedMovies
 WHERE Rank = 1 AND GROSS != 0
